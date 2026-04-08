@@ -1,0 +1,191 @@
+<!DOCTYPE html> 
+<html lang="es"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Comparativo</title> 
+    <style> 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f4f6f9; 
+            margin: 0; 
+            padding: 20px; 
+        } 
+
+        .header { 
+            background: linear-gradient(135deg, #111827, #1f2937); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+        } 
+
+        .header a {
+            color: white; 
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .header a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        } 
+
+        .card h2 {
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 300px;
+        } 
+
+        th, td { 
+            border: 1px solid #d1d5db; 
+            padding: 12px; 
+            text-align: left;
+        } 
+
+        th { 
+            background: #e5e7eb; 
+            font-weight: bold;
+        } 
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #6b7280;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+    </style> 
+</head> 
+<body> 
+
+<div class="header"> 
+    <h1>📊 Dashboard Comparativo</h1> 
+    <a href="{% url 'inicio' %}">← Volver al dashboard</a> 
+</div> 
+
+<div class="card"> 
+    <h2>📁 Comparativo por categoría</h2> 
+    <div class="table-container">
+        <table> 
+            <thead>
+                <tr> 
+                    <th>Categoría</th> 
+                    <th>Total</th> 
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in comparativo_categorias %} 
+                <tr> 
+                    <td>{{ item.producto__categoria__nombre|default:"Sin categoría" }}</td> 
+                    <td>{{ item.total|floatformat:2 }}</td> 
+                </tr> 
+                {% empty %} 
+                <tr> 
+                    <td colspan="2" class="no-data">No hay datos disponibles</td> 
+                </tr> 
+                {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+</div> 
+
+<div class="card"> 
+    <h2>🏙️ Comparativo por ciudad</h2> 
+    <div class="table-container">
+        <table> 
+            <thead>
+                <tr> 
+                    <th>Ciudad</th> 
+                    <th>Total</th> 
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in comparativo_ciudades %} 
+                <tr> 
+                    <td>{{ item.sucursal__ciudad|default:"Sin ciudad" }}</td> 
+                    <td>{{ item.total|floatformat:2 }}</td> 
+                </tr> 
+                {% empty %} 
+                <tr> 
+                    <td colspan="2" class="no-data">No hay datos disponibles</td> 
+                </tr> 
+                {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+</div> 
+
+<div class="card"> 
+    <h2>💳 Comparativo por método de pago</h2> 
+    <div class="table-container">
+        <table> 
+            <thead>
+                <tr> 
+                    <th>Método</th> 
+                    <th>Total</th> 
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in comparativo_metodos %} 
+                <tr> 
+                    <td>{{ item.metodo_pago__nombre|default:"Sin método" }}</td> 
+                    <td>{{ item.total|floatformat:2 }}</td> 
+                </tr> 
+                {% empty %} 
+                <tr> 
+                    <td colspan="2" class="no-data">No hay datos disponibles</td> 
+                </tr> 
+                {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+</div> 
+
+</body> 
+</html>
