@@ -3,75 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Ventas</title>
+    <title>Listado de Ventas - SI Ejecutivo</title>
+    <!-- Cargamos Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .table-container {
-            overflow-x: auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-    </style>
 </head>
-<body class="bg-gray-100 p-4 md:p-8">
-    <div class="max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <h1 class="text-3xl font-bold text-gray-800">Historial de Ventas</h1>
-            <div class="flex gap-2">
-                <a href="/" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition">
-                    Dashboard
-                </a>
-                <a href="/admin/ventas/venta/add/" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-                    Nueva Venta
-                </a>
+<body class="bg-slate-100 min-h-screen p-6 md:p-10 font-sans">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <!-- Banner Superior Verde Brillante (Igual al de la captura del Word) -->
+        <div class="bg-emerald-600 text-white p-8 rounded-3xl shadow-lg shadow-emerald-900/10">
+            <h1 class="text-4xl font-extrabold tracking-tight">Listado de ventas</h1>
+            <p class="text-emerald-100 text-sm mt-2 font-medium">Consulta general de documentos registrados en el sistema.</p>
+        </div>
+
+        <!-- Botón Volver al Dashboard -->
+        <div class="flex justify-start">
+            <a href="/" class="bg-slate-950 hover:bg-slate-900 text-white text-xs font-bold px-6 py-3 rounded-xl transition shadow-md">
+                Volver al dashboard
+            </a>
+        </div>
+
+        <!-- Tabla de Ventas Premium -->
+        <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/60 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 text-white">
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider">Folio</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider">Fecha</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider">Cliente</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider">Sucursal</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider">Vendedor</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider">Método de pago</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        {% for venta in ventas %}
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 font-mono text-blue-600 font-bold text-sm">
+                                {{ venta.folio }}
+                            </td>
+                            <td class="px-6 py-4 text-slate-600 text-sm">
+                                {{ venta.fecha|date:"Y-m-d" }}
+                            </td>
+                            <td class="px-6 py-4 text-slate-700 text-sm font-medium">
+                                {{ venta.cliente.nombre }}
+                            </td>
+                            <td class="px-6 py-4 text-slate-600 text-sm">
+                                {{ venta.sucursal.nombre }}
+                            </td>
+                            <td class="px-6 py-4 text-slate-600 text-sm">
+                                {{ venta.vendedor.nombre }}
+                            </td>
+                            <td class="px-6 py-4 text-slate-600 text-sm">
+                                {{ venta.metodo_pago.nombre }}
+                            </td>
+                            <td class="px-6 py-4 text-right font-bold text-slate-900 text-sm">
+                                ${{ venta.total|floatformat:2 }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="px-6 py-16 text-center text-slate-500">
+                                <div class="text-base font-semibold">No hay ventas registradas en el sistema.</div>
+                                <p class="text-xs text-slate-400 mt-1">Por favor, revisa la base de datos o corre el importador de Excel.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div class="table-container">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-800 text-white">
-                        <th class="px-6 py-4 font-semibold uppercase text-sm">Folio</th>
-                        <th class="px-6 py-4 font-semibold uppercase text-sm">Fecha</th>
-                        <th class="px-6 py-4 font-semibold uppercase text-sm">Cliente</th>
-                        <th class="px-6 py-4 font-semibold uppercase text-sm">Sucursal</th>
-                        <th class="px-6 py-4 font-semibold uppercase text-sm">Vendedor</th>
-                        <th class="px-6 py-4 font-semibold uppercase text-sm text-right">Total</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    {% for venta in ventas %}
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-6 py-4 font-medium text-blue-600">
-                            {{ venta.folio|default:"N/A" }}
-                        </td>
-                        <td class="px-6 py-4 text-gray-600">
-                            {{ venta.fecha|date:"d/m/Y" }}
-                        </td>
-                        <td class="px-6 py-4 text-gray-700">
-                            {{ venta.cliente.nombre|default:"Cliente General" }}
-                        </td>
-                        <td class="px-6 py-4 text-gray-600">
-                            {{ venta.sucursal.nombre }}
-                        </td>
-                        <td class="px-6 py-4 text-gray-600">
-                            {{ venta.vendedor.nombre }}
-                        </td>
-                        <td class="px-6 py-4 text-right font-bold text-gray-900">
-                            ${{ venta.total|floatformat:2 }}
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6" class="px-6 py-10 text-center text-gray-500 italic">
-                            No se encontraron ventas registradas en el sistema.
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
     </div>
+
 </body>
 </html>

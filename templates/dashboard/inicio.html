@@ -2,280 +2,180 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Ejecutivo</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f6f9;
-            color: #1f2937;
-        }
-
-        header {
-            background: #1f2937;
-            color: white;
-            padding: 20px;
-        }
-
-        .contenedor {
-            width: 95%;
-            margin: 20px auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .grid-kpis {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .kpi {
-            background: #ffffff;
-            border-left: 6px solid #374151;
-            border-radius: 10px;
-            padding: 15px;
-        }
-
-        .kpi h3 {
-            margin: 0 0 10px 0;
-            font-size: 16px;
-        }
-
-        .kpi p {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .grid-graficas {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-            gap: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        table th, table td {
-            border: 1px solid #d1d5db;
-            padding: 10px;
-            text-align: left;
-        }
-
-        table th {
-            background: #e5e7eb;
-        }
-
-        form .fila {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            align-items: end;
-        }
-
-        input, select, button, a.boton {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #cbd5e1;
-            text-decoration: none;
-        }
-
-        button, a.boton {
-            background: #1f2937;
-            color: white;
-            cursor: pointer;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .acciones {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        canvas {
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SI Ejecutivo - Sistema de Inteligencia Comercial</title>
+    <!-- Cargamos Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Iconos Lucide (para botones y menús) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="bg-slate-950 text-white min-h-screen font-sans">
 
-<header>
-    <h1>Dashboard Ejecutivo de Ventas</h1>
-    <p>Visualización general del desempeño comercial</p>
-</header>
+    <!-- Encabezado Principal / Barra de Navegación -->
+    <header class="bg-slate-900/60 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            
+            <!-- Logo y Eslogan -->
+            <div>
+                <h1 class="text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                    <span class="bg-blue-600 px-2.5 py-1 rounded-lg text-sm font-black text-white">SI</span>
+                    SI Ejecutivo
+                </h1>
+                <p class="text-xs text-slate-400 mt-1">Dashboard, reportes, comparativos y analítica avanzada</p>
+            </div>
 
-<div class="contenedor">
+            <!-- Menú de Píldoras de Navegación (Coincide con captura) -->
+            <nav class="flex flex-wrap items-center gap-2">
+                <a href="/" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-full transition">Inicio</a>
+                <a href="/ventas/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Ventas</a>
+                <a href="/reportes/mensual/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Reporte mensual</a>
+                <a href="/comparativo/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Comparativo</a>
+                <a href="/analitica/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Analítica</a>
+                <a href="/agente-guia/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Agente guía</a>
+                <a href="/catalogos/productos/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Productos</a>
+                <a href="/catalogos/clientes/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Clientes</a>
+                <a href="/catalogos/vendedores/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Vendedores</a>
+                <a href="/catalogos/sucursales/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Sucursales</a>
+                <a href="/catalogos/metodos_pago/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Métodos de pago</a>
+                <a href="/mercado/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Mercado</a>
+                <a href="/admin/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-full transition">Admin</a>
+                
+                <!-- Botón de Salida -->
+                <a href="/login/" class="bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 text-rose-300 text-xs font-semibold px-4 py-2 rounded-full transition ml-2">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
 
-    <section class="card">
-        <h2>Filtros</h2>
-        <form method="get">
-            <div class="fila">
-                <div>
-                    <label>Fecha inicio</label>
-                    <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}">
+    <!-- Contenido Principal -->
+    <main class="max-w-7xl mx-auto p-6 lg:p-8 space-y-10">
+
+        <!-- Título de Sección -->
+        <div>
+            <h2 class="text-3xl font-bold tracking-tight">Panel principal</h2>
+            <p class="text-slate-400 text-sm mt-1">Centro de mando del sistema de información ejecutivo.</p>
+        </div>
+
+        <!-- Fila de Tarjeta de Bienvenida y Accesos Rápidos -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Tarjeta Bienvenida (Ocupa 2 columnas) -->
+            <div class="lg:col-span-2 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-8 rounded-3xl flex flex-col justify-between space-y-6">
+                <div class="space-y-3">
+                    <h3 class="text-xl font-bold text-white">Bienvenido al SI Ejecutivo</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Desde aquí puedes consultar ventas, revisar reportes mensuales, comparar resultados, explorar catálogos y activar la capa de analítica avanzada con predicciones, alertas e insights automáticos.
+                    </p>
                 </div>
                 <div>
-                    <label>Fecha fin</label>
-                    <input type="date" name="fecha_fin" value="{{ fecha_fin }}">
-                </div>
-                <div>
-                    <label>Cliente</label>
-                    <select name="cliente">
-                        <option value="">Todos</option>
-                        {% for cliente in clientes %}
-                            <option value="{{ cliente.id }}" {% if cliente_id == cliente.id|stringformat:"s" %}selected{% endif %}>
-                                {{ cliente.nombre }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <label>Vendedor</label>
-                    <select name="vendedor">
-                        <option value="">Todos</option>
-                        {% for vendedor in vendedores %}
-                            <option value="{{ vendedor.id }}" {% if vendedor_id == vendedor.id|stringformat:"s" %}selected{% endif %}>
-                                {{ vendedor.nombre }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <button type="submit">Aplicar filtros</button>
+                    <a href="/analitica/" class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-medium py-3 px-6 rounded-2xl transition shadow-lg shadow-blue-500/10 text-sm">
+                        Ir a analítica avanzada
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
                 </div>
             </div>
-        </form>
-    </section>
 
-    <section class="card">
-        <h2>Indicadores principales</h2>
-        <div class="grid-kpis">
-            <div class="kpi">
-                <h3>Total ventas</h3>
-                <p>${{ total_ventas }}</p>
+            <!-- Accesos Rápidos (Ocupa 1 columna) -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+                <h3 class="text-sm font-semibold text-slate-400 tracking-wider uppercase">Accesos rápidos</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="/ventas/" class="bg-slate-800/40 hover:bg-slate-800 text-white text-xs font-medium py-3.5 px-4 rounded-xl border border-slate-700/30 transition text-center">Ver ventas</a>
+                    <a href="/reportes/mensual/" class="bg-slate-800/40 hover:bg-slate-800 text-white text-xs font-medium py-3.5 px-4 rounded-xl border border-slate-700/30 transition text-center">Reporte mensual</a>
+                    <a href="/comparativo/" class="bg-slate-800/40 hover:bg-slate-800 text-white text-xs font-medium py-3.5 px-4 rounded-xl border border-slate-700/30 transition text-center">Comparativo</a>
+                    <a href="/exportar/excel/" class="bg-slate-800/40 hover:bg-slate-800 text-white text-xs font-medium py-3.5 px-4 rounded-xl border border-slate-700/30 transition text-center">Exportar Excel</a>
+                    <a href="/catalogos/vendedores/" class="bg-slate-800/40 hover:bg-slate-800 text-white text-xs font-medium py-3.5 px-4 rounded-xl border border-slate-700/30 transition text-center">Vendedores</a>
+                    <a href="/catalogos/sucursales/" class="bg-slate-800/40 hover:bg-slate-800 text-white text-xs font-medium py-3.5 px-4 rounded-xl border border-slate-700/30 transition text-center">Sucursales</a>
+                </div>
             </div>
-            <div class="kpi">
-                <h3>Total documentos</h3>
-                <p>{{ total_documentos }}</p>
+        </section>
+
+        <!-- Grilla de Módulos Operativos -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Ventas -->
+            <div class="bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 p-6 rounded-2xl transition space-y-4">
+                <span class="text-xs text-slate-500 font-bold tracking-widest uppercase block">Módulo</span>
+                <h4 class="text-2xl font-bold text-white">Ventas</h4>
+                <p class="text-slate-400 text-xs">Consulta registros y comportamiento comercial.</p>
+                <a href="/ventas/" class="text-xs text-blue-400 hover:text-blue-300 font-medium inline-flex items-center gap-1.5 pt-2">Explorar <i data-lucide="chevron-right" class="w-3 h-3"></i></a>
             </div>
-            <div class="kpi">
-                <h3>Ticket promedio</h3>
-                <p>${{ ticket_promedio }}</p>
+
+            <!-- Comparativo -->
+            <div class="bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 p-6 rounded-2xl transition space-y-4">
+                <span class="text-xs text-slate-500 font-bold tracking-widest uppercase block">Módulo</span>
+                <h4 class="text-2xl font-bold text-white">Comparativo</h4>
+                <p class="text-slate-400 text-xs">Cruza categoría, ciudad y método de pago.</p>
+                <a href="/comparativo/" class="text-xs text-blue-400 hover:text-blue-300 font-medium inline-flex items-center gap-1.5 pt-2">Explorar <i data-lucide="chevron-right" class="w-3 h-3"></i></a>
             </div>
-            <div class="kpi">
-                <h3>Venta máxima</h3>
-                <p>${{ venta_maxima }}</p>
+
+            <!-- Analítica -->
+            <div class="bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 p-6 rounded-2xl transition space-y-4">
+                <span class="text-xs text-slate-500 font-bold tracking-widest uppercase block">Módulo</span>
+                <h4 class="text-2xl font-bold text-white">Analítica</h4>
+                <p class="text-slate-400 text-xs">ANOVA, regresión, predicción y recomendaciones.</p>
+                <a href="/analitica/" class="text-xs text-blue-400 hover:text-blue-300 font-medium inline-flex items-center gap-1.5 pt-2">Explorar <i data-lucide="chevron-right" class="w-3 h-3"></i></a>
             </div>
-            <div class="kpi">
-                <h3>Productos vendidos</h3>
-                <p>{{ total_productos_vendidos }}</p>
+
+            <!-- Catálogos -->
+            <div class="bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 p-6 rounded-2xl transition space-y-4">
+                <span class="text-xs text-slate-500 font-bold tracking-widest uppercase block">Módulo</span>
+                <h4 class="text-2xl font-bold text-white">Catálogos</h4>
+                <p class="text-slate-400 text-xs">Clientes, productos, vendedores y sucursales.</p>
+                <div class="flex gap-3 pt-2">
+                    <a href="/catalogos/productos/" class="text-xs text-blue-400 hover:text-blue-300 font-medium">Prod</a>
+                    <a href="/catalogos/clientes/" class="text-xs text-blue-400 hover:text-blue-300 font-medium">Clie</a>
+                    <a href="/catalogos/vendedores/" class="text-xs text-blue-400 hover:text-blue-300 font-medium">Vend</a>
+                    <a href="/catalogos/sucursales/" class="text-xs text-blue-400 hover:text-blue-300 font-medium">Sucu</a>
+                </div>
             </div>
-            <div class="kpi">
-                <h3>Métodos usados</h3>
-                <p>{{ metodos_usados }}</p>
+        </section>
+
+        <!-- Grilla de Módulos de Clientes y CRM (Sección 2.1 del Word) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Módulo CRM -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+                <h3 class="text-lg font-bold text-white">Módulo CRM</h3>
+                <p class="text-slate-400 text-xs">Herramientas de seguimiento comercial, segmentación y análisis de clientes.</p>
+                <div class="space-y-2 pt-2">
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition">Seguimiento comercial</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition">Desempeño por vendedor</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition">Segmentación de clientes</button>
+                </div>
             </div>
-        </div>
-    </section>
 
-    <section class="card">
-        <h2>Acciones</h2>
-        <div class="acciones">
-            <a class="boton" href="{% url 'lista_ventas' %}">Ver ventas</a>
-            <a class="boton" href="{% url 'reporte_mensual' %}">Reporte mensual</a>
-            <a class="boton" href="{% url 'dashboard_comparativo' %}">Comparativo</a>
-            <a class="boton" href="{% url 'exportar_ventas_excel' %}">Exportar Excel</a>
-        </div>
-    </section>
+            <!-- CRM Avanzado -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+                <h3 class="text-lg font-bold text-white">CRM Avanzado</h3>
+                <p class="text-slate-400 text-xs">Prospectos, notas comerciales, recordatorios y tablero del área comercial.</p>
+                <div class="space-y-2 pt-2">
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition">Pipeline de prospectos</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition">Notas CRM</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition">Recordatorios CRM</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition">Dashboard gerencial</button>
+                </div>
+            </div>
 
-    <section class="grid-graficas">
-        <div class="card">
-            <h2>Ventas por método de pago</h2>
-            <canvas id="graficaMetodo"></canvas>
-        </div>
+            <!-- CRM Ejecutivo -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+                <h3 class="text-lg font-bold text-white">CRM Ejecutivo</h3>
+                <p class="text-slate-400 text-xs">Herramientas finales de seguimiento comercial, score, alertas, predicción y exportación ejecutiva.</p>
+                <div class="space-y-2 pt-2 max-h-[280px] overflow-y-auto pr-1">
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition mb-2">Nuevo prospecto</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition mb-2">Pipeline</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition mb-2">Dashboard gerencial CRM</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition mb-2">Score de clientes</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition mb-2">Alertas por inactividad</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition mb-2">Predicción de ventas</button>
+                    <button class="w-full bg-slate-800/50 hover:bg-slate-800 text-left text-xs py-3 px-4 rounded-xl border border-slate-700/20 text-slate-300 transition">Panel por rol</button>
+                </div>
+            </div>
+        </section>
 
-        <div class="card">
-            <h2>Ventas por vendedor</h2>
-            <canvas id="graficaVendedor"></canvas>
-        </div>
+    </main>
 
-        <div class="card">
-            <h2>Productos más vendidos</h2>
-            <canvas id="graficaProductos"></canvas>
-        </div>
-
-        <div class="card">
-            <h2>Ventas por categoría</h2>
-            <canvas id="graficaCategoria"></canvas>
-        </div>
-    </section>
-
-</div>
-
-<script>
-    const ventasPorMetodo      = JSON.parse('{{ ventas_por_metodo_json|escapejs }}');
-    const ventasPorVendedor    = JSON.parse('{{ ventas_por_vendedor_json|escapejs }}');
-    const productosMasVendidos = JSON.parse('{{ productos_mas_vendidos_json|escapejs }}');
-    const ventasPorCategoria   = JSON.parse('{{ ventas_por_categoria_json|escapejs }}');
-
-    new Chart(document.getElementById('graficaMetodo'), {
-        type: 'bar',
-        data: {
-            labels: ventasPorMetodo.map(x => x.metodo_pago__nombre),
-            datasets: [{
-                label: 'Total',
-                data: ventasPorMetodo.map(x => x.total)
-            }]
-        }
-    });
-
-    new Chart(document.getElementById('graficaVendedor'), {
-        type: 'bar',
-        data: {
-            labels: ventasPorVendedor.map(x => x.vendedor__nombre),
-            datasets: [{
-                label: 'Total',
-                data: ventasPorVendedor.map(x => x.total)
-            }]
-        }
-    });
-
-    new Chart(document.getElementById('graficaProductos'), {
-        type: 'bar',
-        data: {
-            labels: productosMasVendidos.map(x => x.producto__nombre),
-            datasets: [{
-                label: 'Cantidad',
-                data: productosMasVendidos.map(x => x.total_cantidad)
-            }]
-        }
-    });
-
-    new Chart(document.getElementById('graficaCategoria'), {
-        type: 'pie',
-        data: {
-            labels: ventasPorCategoria.map(x => x.producto__categoria__nombre),
-            datasets: [{
-                label: 'Importe',
-                data: ventasPorCategoria.map(x => x.total_importe)
-            }]
-        }
-    });
-</script>
-
+    <!-- Inicialización de Iconos Lucide -->
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

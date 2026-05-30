@@ -144,4 +144,4 @@ class Command(BaseCommand):
                         importe=d['importe']
                     )
 
-        self.stdout.write(self.style.SUCCESS('Importación completada correctamente'))
+        self.stdout.write(self.style.SUCCESS('Importación completada correctamente'))python manage.py importar_basededatos --archivo "DashBoard2021 (1).xlsx"

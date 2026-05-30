@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Analítica Avanzada - ANOVA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-950 text-white min-h-screen p-8">
+    
+    <div class="max-w-5xl mx-auto space-y-8">
+        <h1 class="text-3xl font-bold">Analítica Avanzada: ANOVA y Visualización</h1>
+
+        {% if anova %}
+        <!-- Datos serializados de forma segura para JS -->
+        {{ nombres_sucursales|json_script:"nombres-data" }}
+        {{ totales_ventas|json_script:"totales-data" }}
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-slate-900 border border-slate-700 p-6 rounded-3xl">
+                <h2 class="text-lg font-semibold mb-4 text-blue-400">Resultados Estadísticos</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
+                        <p class="text-xs text-slate-400 uppercase">Valor F</p>
+                        <p class="text-2xl font-mono">{{ anova.f_value }}</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-xl text-center border border-slate-700">
+                        <p class="text-xs text-slate-400 uppercase">Valor P</p>
+                        <p class="text-2xl font-mono">{{ anova.p_value }}</p>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 rounded-xl {% if anova.significativo %}bg-emerald-950{% else %}bg-amber-950{% endif %} border">
+                    <p class="text-sm font-bold text-center">
+                        {% if anova.significativo %}Hay diferencias significativas (P < 0.05).{% else %}No hay diferencias significativas.{% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-700 p-6 rounded-3xl">
+                <h2 class="text-lg font-semibold mb-4 text-blue-400">Distribución por Sucursal</h2>
+                <canvas id="anovaChart" class="max-h-64"></canvas>
+            </div>
+        </div>
+
+        <script>
+            const nombres = JSON.parse(document.getElementById('nombres-data').textContent);
+            const totales = JSON.parse(document.getElementById('totales-data').textContent);
+            
+            const ctx = document.getElementById('anovaChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: nombres,
+                    datasets: [{
+                        label: 'Total Ventas',
+                        data: totales,
+                        backgroundColor: '#3b82f6'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        </script>
+        {% else %}
+        <div class="bg-slate-900 p-12 rounded-3xl text-center border border-dashed border-slate-700">
+            <p class="text-slate-400">Datos insuficientes para el análisis.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

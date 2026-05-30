@@ -1,28 +1,46 @@
-<!DOCTYPE html> 
-<html lang="es"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <title>Productos</title> 
-</head> 
-<body> 
-    <h1>Listado de productos</h1> 
-    <table border="1"> 
-        <tr> 
-            <th>ID</th> 
-            <th>Código</th> 
-            <th>Nombre</th> 
-            <th>Categoría</th> 
-            <th>Precio</th> 
-        </tr> 
-        {% for producto in productos %} 
-        <tr> 
-            <td>{{ producto.id }}</td> 
-            <td>{{ producto.codigo }}</td> 
-            <td>{{ producto.nombre }}</td> 
-            <td>{{ producto.categoria.nombre }}</td> 
-            <td>{{ producto.precio }}</td> 
-        </tr> 
-        {% endfor %} 
-    </table> 
-</body> 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Listado de Productos</title>
+</head>
+<body class="bg-slate-950 text-white p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Listado de Productos</h1>
+        
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden shadow-xl">
+            <table class="w-full text-left">
+                <thead class="bg-slate-800 border-b border-slate-700">
+                    <tr>
+                        <th class="p-4">ID</th>
+                        <th class="p-4">Código</th>
+                        <th class="p-4">Nombre</th>
+                        <th class="p-4">Categoría</th>
+                        <th class="p-4">Precio</th>
+                        <th class="p-4 text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                    {% for producto in productos %}
+                    <tr class="hover:bg-slate-800 transition">
+                        <td class="p-4">{{ producto.id }}</td>
+                        <td class="p-4">{{ producto.codigo }}</td>
+                        <td class="p-4">{{ producto.nombre }}</td>
+                        <!-- CAMBIO HECHO AQUÍ ABAJO -->
+                        <td class="p-4">{{ producto.categoria.nombre }}</td>
+                        <td class="p-4">${{ producto.precio }}</td>
+                        <td class="p-4 text-center">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold 
+                                {% if producto.status == 'Activo' %}bg-emerald-900 text-emerald-300{% else %}bg-red-900 text-red-300{% endif %}">
+                                {{ producto.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
 </html>

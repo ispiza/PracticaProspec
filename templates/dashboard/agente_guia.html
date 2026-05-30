@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente Guía - SI Ejecutivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center p-6">
+
+    <div class="max-w-3xl w-full">
+        <!-- Encabezado -->
+        <div class="flex items-center gap-4 mb-8">
+            <div class="bg-blue-600 p-3 rounded-2xl">
+                <i data-lucide="bot" class="w-8 h-8 text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold">Agente Guía Inteligente</h1>
+                <p class="text-slate-400">Asistente de análisis de ventas y toma de decisiones.</p>
+            </div>
+        </div>
+
+        <!-- Área de Conversación -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 min-h-[400px] flex flex-col">
+            <div class="flex-grow space-y-4">
+                <div class="bg-slate-800 p-4 rounded-2xl rounded-bl-none max-w-[80%]">
+                    <p class="text-sm">Hola, soy tu asistente ejecutivo. ¿En qué puedo ayudarte hoy? Puedo explicarte tendencias, analizar varianzas o ayudarte a interpretar tus reportes mensuales.</p>
+                </div>
+            </div>
+
+            <!-- Input de Chat -->
+            <div class="mt-6 flex gap-2">
+                <input type="text" placeholder="Escribe tu consulta aquí..." class="flex-grow bg-slate-950 border border-slate-700 rounded-2xl px-4 py-3 outline-none focus:border-blue-500 transition">
+                <button class="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-2xl transition">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="mt-6 text-center">
+            <a href="/" class="text-slate-500 hover:text-white text-sm flex items-center justify-center gap-2">
+                <i data-lucide="home" class="w-4 h-4"></i> Volver al panel principal
+            </a>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

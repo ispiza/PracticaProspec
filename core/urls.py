@@ -1,25 +1,24 @@
-"""
-URL configuration for core project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
+from dashboard import views
+from usuarios import views as usuarios_views 
+from reportes import views as reportes_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('dashboard.urls')),           # Página de inicio
-    path('catalogos/', include('catalogos.urls')), # Conexión con la app de catálogos
-    path('ventas/', include('ventas.urls')),
+    path('login/', usuarios_views.login_ejecutivo, name='login'), 
+    
+    # Dashboard (Inicio)
+    path('', views.inicio, name='inicio'),
+    path('reportes-mensuales/', views.reporte_mensual, name='reporte_mensual'),
+    path('exportar/excel/', views.exportar_ventas_excel, name='exportar_ventas_excel'),
+    path('comparativo/', views.dashboard_comparativo, name='dashboard_comparativo'),
+    path('analitica/', views.analitica_avanzada, name='analitica_avanzada'),
+    path('agente-guia/', views.agente_guia, name='agente_guia'),
+    
+    # Rutas para Catálogos y Ventas
+    path('catalogos/', include('catalogos.urls')), 
+    path('ventas/', include('ventas.urls')), 
+    path('reportes/mensual/', views.reporte_mensual, name='reporte_mensual'),
+    path('mercado/', views.lista_mercado, name='mercado'),
 ]

@@ -1,24 +1,58 @@
-<!DOCTYPE html> 
-<html lang="es"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <title>Vendedores</title> 
-</head> 
-<body> 
-    <h1>Listado de vendedores</h1> 
-    <table border="1"> 
-        <tr> 
-            <th>ID</th> 
-            <th>Nombre</th> 
-            <th>Sucursal</th> 
-        </tr> 
-        {% for vendedor in vendedores %} 
-        <tr> 
-            <td>{{ vendedor.id }}</td> 
-            <td>{{ vendedor.nombre }}</td> 
-            <td>{{ vendedor.sucursal.nombre }}</td> 
-        </tr> 
-        {% endfor %} 
-    </table> 
-</body> 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Lista de Vendedores</title>
+</head>
+<body class="bg-[#0a0f1a] text-slate-200 p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Encabezado -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-white">Lista de vendedores</h1>
+                <p class="text-slate-500">Directorio comercial con identificación visual automática.</p>
+            </div>
+            <a href="/" class="bg-slate-800 hover:bg-slate-700 text-white px-6 py-2 rounded-lg transition border border-slate-700">
+                Volver al inicio
+            </a>
+        </div>
+
+        <!-- Tabla -->
+        <div class="bg-[#0f172a] border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+            <table class="w-full text-left">
+                <thead class="bg-[#0f172a] border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-5 text-xs uppercase text-slate-400 font-semibold">Vendedor</th>
+                        <th class="px-6 py-5 text-xs uppercase text-slate-400 font-semibold">Correo</th>
+                        <th class="px-6 py-5 text-xs uppercase text-slate-400 font-semibold">Teléfono</th>
+                        <th class="px-6 py-5 text-xs uppercase text-slate-400 font-semibold">Sucursal</th>
+                        <th class="px-6 py-5 text-xs uppercase text-slate-400 font-semibold text-right">Estatus</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                    {% for vendedor in vendedores %}
+                    <tr class="hover:bg-slate-800/30 transition">
+                        <td class="px-6 py-6 flex items-center">
+                            <span class="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center font-bold text-white mr-4">
+                                {{ vendedor.iniciales }}
+                            </span>
+                            <span class="font-medium text-white">{{ vendedor.nombre }}</span>
+                        </td>
+                        <td class="px-6 py-6 text-slate-400">{{ vendedor.correo|default:"Sin correo" }}</td>
+                        <td class="px-6 py-6 text-slate-400">{{ vendedor.telefono|default:"Sin teléfono" }}</td>
+                        <td class="px-6 py-6 text-slate-400">{{ vendedor.sucursal.nombre }}</td>
+                        <td class="px-6 py-6 text-right">
+                            <span class="bg-emerald-950 text-emerald-400 px-3 py-1 rounded-full text-xs font-medium border border-emerald-900">
+                                Activo
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
 </html>

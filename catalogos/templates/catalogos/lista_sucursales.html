@@ -1,28 +1,42 @@
-<!DOCTYPE html> 
-<html lang="es"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <title>Sucursales</title> 
-</head> 
-<body> 
-    <h1>Listado de sucursales</h1> 
-    <table border="1"> 
-        <tr> 
-            <th>ID</th> 
-            <th>Nombre</th> 
-            <th>Ciudad</th> 
-            <th>Estado</th> 
-            <th>País</th> 
-        </tr> 
-        {% for sucursal in sucursales %} 
-        <tr> 
-            <td>{{ sucursal.id }}</td> 
-            <td>{{ sucursal.nombre }}</td> 
-            <td>{{ sucursal.ciudad }}</td> 
-            <td>{{ sucursal.estado }}</td> 
-            <td>{{ sucursal.pais }}</td> 
-        </tr> 
-        {% endfor %} 
-    </table> 
-</body> 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Lista de Sucursales</title>
+</head>
+<body class="bg-slate-950 text-slate-200 min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-white mb-8">Nuestras Sucursales</h1>
+
+        <!-- Contenedor con scroll horizontal para evitar que se rompa en móviles -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-slate-800">
+                    <tr>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-300 uppercase tracking-wider">Sucursal</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-300 uppercase tracking-wider">Ciudad</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-300 uppercase tracking-wider">Estado</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800">
+                    {% for sucursal in sucursales %}
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="px-6 py-4 text-white font-medium">{{ sucursal.nombre }}</td>
+                        <td class="px-6 py-4 text-slate-400">{{ sucursal.ciudad }}</td>
+                        <td class="px-6 py-4 text-slate-400">{{ sucursal.estado }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="px-6 py-10 text-center text-slate-500 italic">
+                            No hay sucursales disponibles en este momento.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
 </html>

@@ -1,26 +1,96 @@
-<!DOCTYPE html> 
-<html lang="es"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <title>Reporte Mensual</title> 
-</head> 
-<body> 
-    <h1>Reporte mensual de ventas</h1> 
-    <a href="{% url 'inicio' %}">Volver al dashboard</a> 
- 
-    <table border="1"> 
-        <tr> 
-            <th>Mes</th> 
-            <th>Total ventas</th> 
-            <th>Total documentos</th> 
-        </tr> 
-        {% for item in datos %} 
-        <tr> 
-            <td>{{ item.mes|date:"F Y" }}</td> 
-            <td>{{ item.total_ventas }}</td> 
-            <td>{{ item.total_documentos }}</td> 
-        </tr> 
-        {% endfor %} 
-    </table> 
-</body> 
-</html> 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Mensual de Ventas - SI Ejecutivo</title>
+    <!-- Cargamos Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen p-6 md:p-10 font-sans">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <!-- Banner Superior Oscuro Premium (Coincide con la captura del Word) -->
+        <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-xl border border-slate-800">
+            <h1 class="text-4xl font-extrabold tracking-tight text-white">Reporte mensual de ventas</h1>
+            <p class="text-slate-400 text-sm mt-2 font-medium">Resumen por año y mes de los documentos registrados.</p>
+        </div>
+
+        <!-- Botones de Acción Estilo Píldora -->
+        <div class="flex flex-wrap gap-3">
+            <a href="/" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-blue-500/10">
+                Volver al dashboard
+            </a>
+            <a href="/comparativo/" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-6 py-3 rounded-full transition shadow-sm">
+                Ir al comparativo
+            </a>
+        </div>
+
+        <!-- Tabla de Reporte Mensual -->
+        <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/60 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 text-white">
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider">Año</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider">Mes</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider text-center">Total documentos</th>
+                            <th class="px-6 py-4.5 text-xs font-bold uppercase tracking-wider text-right">Total ventas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        {% for item in datos %}
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 text-slate-900 font-semibold text-sm">
+                                <!-- Extrae el año de forma segura si 'mes' es un objeto de fecha, o usa 'anio' como respaldo -->
+                                {% if item.mes.year %}
+                                    {{ item.mes.year }}
+                                {% else %}
+                                    {{ item.anio|default:"" }}
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 text-slate-600 font-medium text-sm">
+                                <!-- Extrae el número de mes si 'mes' es un objeto de fecha, o usa 'mes' directamente -->
+                                {% if item.mes.month %}
+                                    {{ item.mes.month }}
+                                {% else %}
+                                    {{ item.mes }}
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 text-center text-slate-600 text-sm">
+                                <span class="bg-blue-50 text-blue-700 font-bold px-3.5 py-1.5 rounded-full text-xs border border-blue-100">
+                                    <!-- Comprobación condicional segura que evita el error VariableDoesNotExist -->
+                                    {% if item.total_documentos is not None %}
+                                        {{ item.total_documentos }}
+                                    {% else %}
+                                        {{ item.cantidad_ventas }}
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right font-bold text-slate-950 text-sm">
+                                <!-- Comprobación condicional segura para el total de ventas -->
+                                {% if item.total_ventas is not None %}
+                                    ${{ item.total_ventas|floatformat:2 }}
+                                {% else %}
+                                    ${{ item.total_monto|floatformat:2 }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-16 text-center text-slate-500">
+                                <div class="text-base font-semibold">No hay datos de ventas mensuales para mostrar.</div>
+                                <p class="text-xs text-slate-400 mt-1">Asegúrate de haber importado el archivo Excel "DashBoard2021 (1).xlsx".</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

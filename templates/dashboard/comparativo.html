@@ -1,191 +1,96 @@
-<!DOCTYPE html> 
-<html lang="es"> 
-<head> 
-    <meta charset="UTF-8"> 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Comparativo</title> 
-    <style> 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>Dashboard Comparativo - SI Ejecutivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-950 text-white min-h-screen font-sans">
 
-        body { 
-            font-family: Arial, sans-serif; 
-            background: #f4f6f9; 
-            margin: 0; 
-            padding: 20px; 
-        } 
+    <!-- Encabezado -->
+    <header class="bg-slate-900/60 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
+                <span class="bg-blue-600 px-2.5 py-1 rounded-lg text-sm font-black">SI</span> SI Ejecutivo
+            </h1>
+            <nav class="flex flex-wrap items-center gap-2">
+                <a href="/" class="bg-slate-800 hover:bg-slate-700 text-xs font-semibold px-4 py-2 rounded-full transition">Inicio</a>
+                <a href="/comparativo/" class="bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-full transition">Comparativo</a>
+                <a href="/login/" class="bg-rose-950/40 border border-rose-800/40 text-rose-300 text-xs font-semibold px-4 py-2 rounded-full transition">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
 
-        .header { 
-            background: linear-gradient(135deg, #111827, #1f2937); 
-            color: white; 
-            padding: 20px; 
-            border-radius: 10px; 
-            margin-bottom: 20px; 
-        } 
+    <main class="max-w-7xl mx-auto p-6 lg:p-8 space-y-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h2 class="text-3xl font-bold text-white">Dashboard comparativo</h2>
+                <p class="text-slate-400 text-sm mt-1">Análisis consolidado de ventas.</p>
+            </div>
+            <a href="/" class="bg-slate-800 hover:bg-slate-700 text-xs font-bold px-5 py-3 rounded-xl border border-slate-700/60">Volver al dashboard</a>
+        </div>
 
-        .header a {
-            color: white; 
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .header a:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateX(-5px);
-        }
-
-        .card { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 10px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        } 
-
-        .card h2 {
-            margin-bottom: 15px;
-            color: #1f2937;
-        }
-
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            min-width: 300px;
-        } 
-
-        th, td { 
-            border: 1px solid #d1d5db; 
-            padding: 12px; 
-            text-align: left;
-        } 
-
-        th { 
-            background: #e5e7eb; 
-            font-weight: bold;
-        } 
-
-        tr:hover {
-            background: #f9fafb;
-        }
-
-        .no-data {
-            text-align: center;
-            color: #6b7280;
-            padding: 20px;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
+        <!-- Grilla de Comparativos -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            .card {
-                padding: 15px;
-            }
-            
-            th, td {
-                padding: 8px;
-                font-size: 14px;
-            }
-        }
-    </style> 
-</head> 
-<body> 
+            <!-- Columna 1: Categorías -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+                <h3 class="text-sm font-bold text-slate-400 uppercase flex items-center gap-2">
+                    <i data-lucide="tag" class="w-4 h-4 text-blue-500"></i> Por categoría
+                </h3>
+                <table class="w-full text-left text-xs">
+                    <tbody class="divide-y divide-slate-800/40">
+                        {% for c in comparativo_categorias %}
+                        <tr>
+                            <td class="py-3 font-semibold">{{ c.producto__categoria__nombre }}</td>
+                            <td class="py-3 text-right font-mono font-bold">${{ c.total|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-<div class="header"> 
-    <h1>📊 Dashboard Comparativo</h1> 
-    <a href="{% url 'inicio' %}">← Volver al dashboard</a> 
-</div> 
+            <!-- Columna 2: Ciudades -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+                <h3 class="text-sm font-bold text-slate-400 uppercase flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-emerald-500"></i> Por ciudad
+                </h3>
+                <table class="w-full text-left text-xs">
+                    <tbody class="divide-y divide-slate-800/40">
+                        {% for c in comparativo_ciudades %}
+                        <tr>
+                            <td class="py-3 font-semibold">{{ c.sucursal__ciudad }}</td>
+                            <td class="py-3 text-right font-mono font-bold">${{ c.total|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-<div class="card"> 
-    <h2>📁 Comparativo por categoría</h2> 
-    <div class="table-container">
-        <table> 
-            <thead>
-                <tr> 
-                    <th>Categoría</th> 
-                    <th>Total</th> 
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in comparativo_categorias %} 
-                <tr> 
-                    <td>{{ item.producto__categoria__nombre|default:"Sin categoría" }}</td> 
-                    <td>{{ item.total|floatformat:2 }}</td> 
-                </tr> 
-                {% empty %} 
-                <tr> 
-                    <td colspan="2" class="no-data">No hay datos disponibles</td> 
-                </tr> 
-                {% endfor %} 
-            </tbody>
-        </table>
-    </div>
-</div> 
+            <!-- Columna 3: Métodos de Pago -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
+                <h3 class="text-sm font-bold text-slate-400 uppercase flex items-center gap-2">
+                    <i data-lucide="credit-card" class="w-4 h-4 text-amber-500"></i> Por método
+                </h3>
+                <table class="w-full text-left text-xs">
+                    <tbody class="divide-y divide-slate-800/40">
+                        {% for c in comparativo_metodos %}
+                        <tr>
+                            <td class="py-3 font-semibold">{{ c.metodo_pago__nombre }}</td>
+                            <td class="py-3 text-right font-mono font-bold">${{ c.total|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-<div class="card"> 
-    <h2>🏙️ Comparativo por ciudad</h2> 
-    <div class="table-container">
-        <table> 
-            <thead>
-                <tr> 
-                    <th>Ciudad</th> 
-                    <th>Total</th> 
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in comparativo_ciudades %} 
-                <tr> 
-                    <td>{{ item.sucursal__ciudad|default:"Sin ciudad" }}</td> 
-                    <td>{{ item.total|floatformat:2 }}</td> 
-                </tr> 
-                {% empty %} 
-                <tr> 
-                    <td colspan="2" class="no-data">No hay datos disponibles</td> 
-                </tr> 
-                {% endfor %} 
-            </tbody>
-        </table>
-    </div>
-</div> 
+        </section>
+    </main>
 
-<div class="card"> 
-    <h2>💳 Comparativo por método de pago</h2> 
-    <div class="table-container">
-        <table> 
-            <thead>
-                <tr> 
-                    <th>Método</th> 
-                    <th>Total</th> 
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in comparativo_metodos %} 
-                <tr> 
-                    <td>{{ item.metodo_pago__nombre|default:"Sin método" }}</td> 
-                    <td>{{ item.total|floatformat:2 }}</td> 
-                </tr> 
-                {% empty %} 
-                <tr> 
-                    <td colspan="2" class="no-data">No hay datos disponibles</td> 
-                </tr> 
-                {% endfor %} 
-            </tbody>
-        </table>
-    </div>
-</div> 
-
-</body> 
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
 </html>

@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 
-# Estas rutas definen a dónde irá el usuario cuando escriba /catalogos/...
 urlpatterns = [
     path('categorias/', views.lista_categorias, name='lista_categorias'),
     path('clientes/', views.lista_clientes, name='lista_clientes'),

@@ -24,3 +24,7 @@ def lista_vendedores(request):
 def lista_metodos_pago(request):
     metodos = MetodoPago.objects.all()
     return render(request, 'catalogos/lista_metodos_pago.html', {'metodos': metodos})
+
+def lista_sucursales(request):
+    sucursales = Sucursal.objects.all()
+    return render(request, 'catalogos/lista_sucursales.html', {'sucursales': sucursales})
