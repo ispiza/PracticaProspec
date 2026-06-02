@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import Categoria, Cliente, Producto, Sucursal, Vendedor, MetodoPago
+from catalogos.models import Producto
+from django.db import connection
 
 def lista_categorias(request):
     categorias = Categoria.objects.all()
@@ -10,7 +12,9 @@ def lista_clientes(request):
     return render(request, 'catalogos/lista_clientes.html', {'clientes': clientes})
 
 def lista_productos(request):
-    productos = Producto.objects.select_related('categoria').all()
+    print(f"DEBUG: Base de datos en uso: {connection.settings_dict['NAME']}")
+    productos = Producto.objects.all()
+    print(f"DEBUG: Productos encontrados: {productos.count()}")
     return render(request, 'catalogos/lista_productos.html', {'productos': productos})
 
 def lista_sucursales(request):

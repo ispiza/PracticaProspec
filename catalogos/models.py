@@ -37,17 +37,13 @@ class Cliente(models.Model):
 class Vendedor(models.Model):
     nombre = models.CharField(max_length=150)
     # Como Sucursal ya se definió arriba, esto funcionará
-    sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE)
+    sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
         return self.nombre
 
 class Producto(models.Model):
-    codigo = models.CharField(max_length=50, unique=True)
+    codigo = models.CharField(max_length=50, unique=True, null=True, blank=True) # Permite nulos para el proceso de carga
     nombre = models.CharField(max_length=200)
-    # Como Categoria ya se definió arriba, esto funcionará
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.0) # Valor por defecto
     status = models.CharField(max_length=20, default='Activo')
-
-    def __str__(self):
-        return self.nombre
